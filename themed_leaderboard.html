@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Leaderboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <style>
+    body {
+      background: linear-gradient(to right, #fdfbfb, #ebedee);
+      min-height: 100vh;
+      padding-top: 2rem;
+    }
+    .card {
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+  </style>
+
+<style>
+  body {
+    margin: 0;
+    background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
+    color: #ffffff;
+    font-family: 'Segoe UI', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  .card, .glass-box {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 2rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 30px rgba(0,0,0,0.2);
+    color: #fff;
+  }
+  .text-primary, .text-success, .text-dark {
+    color: #c2bfff !important;
+  }
+  .btn-primary {
+    background-color: #6a5acd;
+    border: none;
+    box-shadow: 0 0 12px #6a5acd;
+  }
+  .btn-primary:hover {
+    background-color: #7b68ee;
+    box-shadow: 0 0 20px #7b68ee;
+  }
+  .btn-success {
+    background-color: #32d4b6;
+    border: none;
+    box-shadow: 0 0 12px #32d4b6;
+  }
+  .btn-success:hover {
+    background-color: #20c9a6;
+    box-shadow: 0 0 20px #20c9a6;
+  }
+  .btn-warning, .btn-danger {
+    box-shadow: 0 0 12px #ffcc00;
+  }
+  .logo {
+    height: 60px;
+    margin: 10px;
+    filter: drop-shadow(0 0 6px #ffffffaa);
+  }
+</style>
+
+</head>
+<body>
+  <div class="container">
+    <h2 class="text-center text-primary mb-4">Global APRI Score Leaderboard</h2>
+    <div class="card p-4">
+      <table class="table table-bordered text-center">
+        <thead class="table-light">
+          <tr>
+            <th>Rank</th>
+            <th>Name</th>
+            <th>Score</th>
+            <th>Interpretation</th>
+          </tr>
+        </thead>
+        <tbody id="leaderboard-body"></tbody>
+      </table>
+      <div class="text-center mt-3">
+        <a href="themed_index.html" class="btn btn-secondary">Back to Home</a>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    fetch("https://script.google.com/macros/s/AKfycbxk7HD6R3FgmwTzXXajLHfXQ89x603PWzo6n8XgyLioPFFq8xNtKUz8zK2-ggA-beXG/exec")
+      .then(res => res.json())
+      .then(data => {
+        data.sort((a, b) => parseFloat(a[6]) - parseFloat(b[6])); // sort by APRI score
+        const tbody = document.getElementById('leaderboard-body');
+        data.forEach((row, index) => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${row[0]}</td>
+            <td>${row[6]}</td>
+            <td>${row[7]}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      });
+  </script>
+</body>
+</html>
