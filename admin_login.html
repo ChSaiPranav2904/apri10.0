@@ -8,7 +8,7 @@
   <!-- EmailJS SDK -->
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
   <script>
-    emailjs.init("CX40UWZVN_WmuujsY"); // ✅ Your EmailJS public key
+    emailjs.init("CX40UWZVN_WmuujsY"); // ✅ Your original public key
   </script>
 
   <!-- Styles -->
@@ -23,7 +23,9 @@
       align-items: center;
       height: 100vh;
       padding: 1rem;
+      margin: 0;
     }
+
     .card {
       background: rgba(255, 255, 255, 0.08);
       border-radius: 20px;
@@ -32,26 +34,59 @@
       max-width: 420px;
       width: 100%;
       border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
     }
+
+    h3 {
+      margin-bottom: 1.5rem;
+    }
+
     input, button {
       margin-top: 10px;
     }
+
     button {
       width: 100%;
+    }
+
+    .btn-primary {
+      background-color: #ffc107;
+      color: #000;
+      border: none;
+      font-weight: 600;
+      box-shadow: 0 0 10px #ffc107;
+    }
+
+    .btn-primary:hover {
+      background-color: #ffca2c;
+    }
+
+    .btn-success {
+      background-color: #4caf50;
+      border: none;
+      font-weight: 600;
+      box-shadow: 0 0 10px #4caf50;
+    }
+
+    .btn-success:hover {
+      background-color: #43a047;
     }
   </style>
 </head>
 <body>
 
   <div class="card text-center">
-    <h3 class="mb-4">Admin Email OTP Login</h3>
+    <h3>Admin Email OTP Login</h3>
 
-    <input type="email" id="email" class="form-control" placeholder="Enter admin email" />
+    <!-- Email input -->
+    <input type="email" id="email" class="form-control" placeholder="Enter admin email" required />
 
+    <!-- Send OTP button -->
     <button class="btn btn-primary" onclick="sendOTP()">Send OTP</button>
 
+    <!-- OTP input & Verify -->
     <div id="otpSection" style="display: none;">
-      <input type="text" id="otpInput" class="form-control" placeholder="Enter 6-digit OTP" />
+      <input type="text" id="otpInput" class="form-control" placeholder="Enter 6-digit OTP" maxlength="6" />
       <button class="btn btn-success" onclick="verifyOTP()">Verify OTP</button>
     </div>
   </div>
@@ -69,18 +104,18 @@
 
       // ✅ Generate a 6-digit OTP
       generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
-      console.log("Generated OTP:", generatedOTP); // For testing only
+      console.log("Generated OTP:", generatedOTP); // for development
 
-      // ✅ Send via EmailJS using your template
+      // ✅ Send OTP using your EmailJS template and keys
       emailjs.send("service_8ko79xq", "template_l41j4z2", {
         otp: generatedOTP,
-        to_email: email // ✅ Required if your template uses {{to_email}} in the "To" field
+        to_email: email
       }).then(() => {
         alert("OTP sent to your email.");
         document.getElementById("otpSection").style.display = "block";
       }).catch(err => {
         console.error("EmailJS error:", err);
-        alert("Failed to send OTP – check your keys and template.");
+        alert("Failed to send OTP – check your EmailJS setup.");
       });
     }
 
@@ -88,7 +123,7 @@
       const enteredOTP = document.getElementById("otpInput").value.trim();
       if (enteredOTP === generatedOTP) {
         alert("OTP verified! Logging in...");
-        sessionStorage.setItem("verified", "true"); // ✅ For analysis.html protection
+        sessionStorage.setItem("verified", "true"); // ✅ Required for analysis.html
         window.location.href = "analysis.html";
       } else {
         alert("Invalid OTP. Please try again.");
