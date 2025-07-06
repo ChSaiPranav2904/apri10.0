@@ -3,102 +3,67 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Step 2: AST Upper Limit</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <title>Step 2 - AST Upper Limit</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
   <style>
     body {
-      background: linear-gradient(to right, #fbc2eb, #a6c1ee);
-      min-height: 100vh;
-    }
-    .logo {
-      height: 60px;
-      margin: 10px;
+      background: linear-gradient(to right, #E6E6FA, #FFDAB9);
+      font-family: 'Poppins', sans-serif;
+      padding: 2rem;
     }
     .card {
+      background: rgba(255,255,255,0.95);
       border-radius: 20px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 2rem;
+      max-width: 600px;
+      margin: 2rem auto;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+    .btn-next {
+      background-color: #ff944d;
+      color: white;
+      font-weight: 600;
+      border: none;
+      padding: 0.6rem 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #ffa64d;
+      transition: all 0.3s ease;
+    }
+    .btn-next:hover {
+      background-color: #ff8000;
+      box-shadow: 0 0 15px #ff8000;
     }
   </style>
-
-<style>
-  body {
-    margin: 0;
-    background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
-    color: #ffffff;
-    font-family: 'Segoe UI', sans-serif;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-  .card, .glass-box {
-    background: rgba(255, 255, 255, 0.08);
-    border-radius: 20px;
-    padding: 2rem;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 4px 30px rgba(0,0,0,0.2);
-    color: #fff;
-  }
-  .text-primary, .text-success, .text-dark {
-    color: #c2bfff !important;
-  }
-  .btn-primary {
-    background-color: #6a5acd;
-    border: none;
-    box-shadow: 0 0 12px #6a5acd;
-  }
-  .btn-primary:hover {
-    background-color: #7b68ee;
-    box-shadow: 0 0 20px #7b68ee;
-  }
-  .btn-success {
-    background-color: #32d4b6;
-    border: none;
-    box-shadow: 0 0 12px #32d4b6;
-  }
-  .btn-success:hover {
-    background-color: #20c9a6;
-    box-shadow: 0 0 20px #20c9a6;
-  }
-  .btn-warning, .btn-danger {
-    box-shadow: 0 0 12px #ffcc00;
-  }
-  .logo {
-    height: 60px;
-    margin: 10px;
-    filter: drop-shadow(0 0 6px #ffffffaa);
-  }
-</style>
-
 </head>
 <body>
-  <div class="container py-5">
-    <div class="text-center mb-4">
-      <img src="yashoda_logo.png.png" class="logo" alt="Yashoda Hospitals">
-      <img src="BITS_Pilani-Logo.png.png" class="logo" alt="BITS Pilani">
-    </div>
-    <div class="card p-4">
-      <h2 class="text-center text-primary mb-4">Step 2: Enter AST Upper Limit</h2>
-      <div class="mb-3">
-        <input type="number" id="astLimit" class="form-control" placeholder="Enter AST Upper Limit" required>
-      </div>
-      <div class="text-center">
-        <button class="btn btn-success" onclick="saveLimit()">Next</button>
-      </div>
-    </div>
+
+<div class="card">
+  <h2 class="text-center mb-4">Step 2: Enter AST Upper Limit</h2>
+
+  <div class="mb-3">
+    <label for="ast_upper">AST Upper Limit (U/L)</label>
+    <input id="ast_upper" class="form-control" type="number" placeholder="e.g., 40" />
   </div>
 
-  <script>
-    function saveLimit() {
-      const astLimit = document.getElementById("astLimit").value;
-      if (astLimit && astLimit > 0) {
-        localStorage.setItem("astLimit", astLimit);
-        localStorage.setItem("step2Complete", "true");
-        window.location.href = "themed_index.html";
+  <div class="text-center mt-4">
+    <button class="btn btn-next" onclick="saveAndNext()">Next: Step 3</button>
+  </div>
+</div>
 
-      } else {
-        alert("Please enter a valid AST Upper Limit.");
-      }
-    }
-  </script>
+<script>
+  function saveAndNext() {
+    const apriData = JSON.parse(localStorage.getItem('apriData') || '{}');
+    apriData.ast_upper = document.getElementById('ast_upper').value;
+    localStorage.setItem('apriData', JSON.stringify(apriData));
+    window.location.href = 'themed_step3.html';
+  }
+
+  window.onload = function () {
+    const data = JSON.parse(localStorage.getItem('apriData') || '{}');
+    if (data.ast_upper) document.getElementById('ast_upper').value = data.ast_upper;
+  };
+</script>
+
 </body>
 </html>
