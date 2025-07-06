@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>APRI Calculator - Summary</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
   <style>
     body {
       background: linear-gradient(to right, #E6E6FA, #FFDAB9);
@@ -13,7 +13,6 @@
       padding: 2rem;
       margin: 0;
     }
-
     .container {
       display: flex;
       justify-content: center;
@@ -21,7 +20,6 @@
       flex-direction: column;
       min-height: 100vh;
     }
-
     .card {
       background: rgba(255, 255, 255, 0.95);
       border-radius: 20px;
@@ -30,19 +28,16 @@
       width: 100%;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     }
-
     h2 {
       text-align: center;
       color: #6a5acd;
       margin-bottom: 1.5rem;
     }
-
     .form-control {
       margin-bottom: 1rem;
       border-radius: 10px;
       padding: 0.75rem;
     }
-
     .btn-steps {
       background-color: #ff944d;
       color: white;
@@ -55,38 +50,32 @@
       margin-top: 1rem;
       transition: all 0.3s ease;
     }
-
     .btn-steps:hover {
       background-color: #ff8000;
       box-shadow: 0 0 15px #ff8000;
     }
-
     .btn-group {
       margin-top: 1rem;
     }
-
     .btn-action {
       margin: 1rem 0.5rem 0;
       font-weight: 600;
       border-radius: 10px;
       min-width: 120px;
     }
-
     #apriResult {
       color: #333;
+      font-weight: 600;
     }
-
     #apriInterpretation {
       font-style: italic;
       color: #666;
     }
-
     @media (max-width: 768px) {
       .btn-group {
         flex-direction: column;
         align-items: center;
       }
-
       .btn-steps {
         margin-right: 0;
         margin-bottom: 0.5rem;
@@ -96,164 +85,151 @@
 </head>
 <body>
 
-  <div class="container">
-    <div class="card">
-      <h2>APRI Calculator Summary</h2>
+<div class="container">
+  <div class="card">
+    <h2>APRI Calculator Summary</h2>
 
-      <!-- Inputs -->
-      <input type="text" id="name" class="form-control" placeholder="Enter Name" required />
-      <input type="number" id="age" class="form-control" placeholder="Enter Age" required />
-      <select id="gender" class="form-control" required>
-        <option value="">Select Gender</option>
-        <option value="Male">Male</option>
-        <option value="Female">Female</option>
-        <option value="Other">Other</option>
-      </select>
-      <input type="tel" id="mobile" class="form-control" placeholder="Enter Patient ID Number" required />
+    <!-- User Info -->
+    <input type="text" id="name" class="form-control" placeholder="Enter Name" required />
+    <input type="number" id="age" class="form-control" placeholder="Enter Age" required />
+    <select id="gender" class="form-control" required>
+      <option value="">Select Gender</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+      <option value="Other">Other</option>
+    </select>
+    <input type="tel" id="mobile" class="form-control" placeholder="Enter Patient ID Number" required />
 
-      <!-- Step Buttons -->
-      <div class="btn-group d-flex justify-content-center flex-wrap">
-        <a href="#" id="step1" class="btn btn-steps" onclick="goToStep('themed_step1.html')">Step 1</a>
-        <a href="#" id="step2" class="btn btn-steps" onclick="goToStep('themed_step2.html')">Step 2</a>
-        <a href="#" id="step3" class="btn btn-steps" onclick="goToStep('themed_step3.html')">Step 3</a>
-      </div>
+    <!-- Step Buttons -->
+    <div class="btn-group d-flex justify-content-center flex-wrap">
+      <a href="#" id="step1" class="btn btn-steps" onclick="goToStep('themed_step1.html')">Step 1</a>
+      <a href="#" id="step2" class="btn btn-steps" onclick="goToStep('themed_step2.html')">Step 2</a>
+      <a href="#" id="step3" class="btn btn-steps" onclick="goToStep('themed_step3.html')">Step 3</a>
+    </div>
 
-      <!-- Result -->
-      <div id="apriResult" class="mt-4 fs-5 text-center"></div>
-      <div id="apriInterpretation" class="mt-2 fs-6 text-center"></div>
+    <!-- APRI Result -->
+    <div id="apriResult" class="mt-4 fs-5 text-center"></div>
+    <div id="apriInterpretation" class="mt-2 fs-6 text-center"></div>
 
-      <!-- Action Buttons -->
-      <div class="text-center mt-4">
-        <button class="btn btn-success btn-action" onclick="saveUserInfoAndSubmit()">Submit</button>
-        <button class="btn btn-info btn-action text-white" onclick="downloadResult()">Download</button>
-        <button class="btn btn-danger btn-action" onclick="clearAll()">Start Over</button>
-      </div>
+    <!-- Action Buttons -->
+    <div class="text-center mt-4">
+      <button class="btn btn-success btn-action" onclick="saveUserInfoAndSubmit()">Submit</button>
+      <button class="btn btn-info btn-action text-white" onclick="downloadResult()">Download</button>
+      <button class="btn btn-danger btn-action" onclick="clearAll()">Start Over</button>
     </div>
   </div>
+</div>
 
-  <script>
-    function updateSteps() {
-      const steps = [1, 2, 3];
-      steps.forEach(step => {
-        const stepBtn = document.getElementById(`step${step}`);
-        if (localStorage.getItem(`step${step}Complete`) === 'true' && stepBtn) {
-          stepBtn.classList.remove('btn-steps');
-          stepBtn.classList.add('btn-success');
-        }
-      });
-
-      const apriData = JSON.parse(localStorage.getItem('apriData') || '{}');
-      const ast = parseFloat(apriData.ast);
-      const astLimit = parseFloat(apriData.ast_upper);
-      const platelets = parseFloat(apriData.platelets);
-
-      if (!isNaN(ast) && !isNaN(astLimit) && !isNaN(platelets)) {
-        const apri = ((ast / astLimit) / platelets) * 100;
-        const apriScore = apri.toFixed(2);
-
-        let interpretation = '';
-        if (apri < 0.5) interpretation = 'Minimal or no fibrosis';
-        else if (apri <= 1.5) interpretation = 'Moderate to significant fibrosis';
-        else interpretation = 'Severe fibrosis or cirrhosis';
-
-        document.getElementById('apriResult').innerText = `APRI Score: ${apriScore}`;
-        document.getElementById('apriInterpretation').innerText = `Interpretation: ${interpretation}`;
-
-        localStorage.setItem('apriScore', apriScore);
-        localStorage.setItem('apriInterpretation', interpretation);
+<script>
+  function updateSteps() {
+    const steps = [1, 2, 3];
+    steps.forEach(step => {
+      const stepBtn = document.getElementById(`step${step}`);
+      if (localStorage.getItem(`step${step}Complete`) === 'true' && stepBtn) {
+        stepBtn.classList.remove('btn-steps');
+        stepBtn.classList.add('btn-success');
       }
+    });
+
+    const apriScore = localStorage.getItem('apriScore');
+    const interpretation = localStorage.getItem('apriInterpretation');
+
+    if (apriScore && interpretation) {
+      document.getElementById('apriResult').innerText = `APRI Score: ${apriScore}`;
+      document.getElementById('apriInterpretation').innerText = `Interpretation: ${interpretation}`;
     }
+  }
 
-    function goToStep(stepPage) {
-      const name = document.getElementById('name').value.trim();
-      const age = document.getElementById('age').value.trim();
-      const gender = document.getElementById('gender').value.trim();
-      const mobile = document.getElementById('mobile').value.trim();
+  function goToStep(stepPage) {
+    const name = document.getElementById('name').value.trim();
+    const age = document.getElementById('age').value.trim();
+    const gender = document.getElementById('gender').value.trim();
+    const mobile = document.getElementById('mobile').value.trim();
 
-      if (name && age && gender && mobile) {
-        localStorage.setItem('name', name);
-        localStorage.setItem('age', age);
-        localStorage.setItem('gender', gender);
-        localStorage.setItem('mobile', mobile);
-        window.location.href = stepPage;
-      } else {
-        alert('Please fill in all fields before proceeding to steps.');
-      }
+    if (name && age && gender && mobile) {
+      localStorage.setItem('name', name);
+      localStorage.setItem('age', age);
+      localStorage.setItem('gender', gender);
+      localStorage.setItem('mobile', mobile);
+      window.location.href = stepPage;
+    } else {
+      alert('Please fill in all fields before proceeding to steps.');
     }
+  }
 
-    function saveUserInfoAndSubmit() {
-      const name = document.getElementById('name').value.trim();
-      const age = document.getElementById('age').value.trim();
-      const gender = document.getElementById('gender').value.trim();
-      const mobile = document.getElementById('mobile').value.trim();
+  function saveUserInfoAndSubmit() {
+    const name = document.getElementById('name').value.trim();
+    const age = document.getElementById('age').value.trim();
+    const gender = document.getElementById('gender').value.trim();
+    const mobile = document.getElementById('mobile').value.trim();
 
-      if (name && age && gender && mobile) {
-        localStorage.setItem('name', name);
-        localStorage.setItem('age', age);
-        localStorage.setItem('gender', gender);
-        localStorage.setItem('mobile', mobile);
-        submitData();
-      } else {
-        alert("Please fill in all fields.");
-      }
+    if (name && age && gender && mobile) {
+      localStorage.setItem('name', name);
+      localStorage.setItem('age', age);
+      localStorage.setItem('gender', gender);
+      localStorage.setItem('mobile', mobile);
+      submitData();
+    } else {
+      alert("Please fill in all fields.");
     }
+  }
 
-    function submitData() {
-      const apriData = JSON.parse(localStorage.getItem('apriData') || '{}');
-      const data = {
-        name: localStorage.getItem('name') || 'N/A',
-        age: localStorage.getItem('age') || 'N/A',
-        gender: localStorage.getItem('gender') || 'N/A',
-        mobile: localStorage.getItem('mobile') || 'N/A',
-        ast: apriData.ast || 'N/A',
-        astLimit: apriData.ast_upper || 'N/A',
-        platelets: apriData.platelets || 'N/A',
-        apriScore: localStorage.getItem('apriScore') || 'N/A',
-        interpretation: localStorage.getItem('apriInterpretation') || 'N/A'
-      };
-
-      fetch("https://script.google.com/macros/s/AKfycbzhKWmynjOHlyP711kw_1cGtKmI714xWpzSyjcB6nYwBQdX1JCBrkaVgjySbV20HGUa/exec", {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      }).then(() => {
-        alert('Data saved successfully.');
-      }).catch(() => {
-        alert('Failed to save data.');
-      });
-    }
-
-    function downloadResult() {
-      const apriData = JSON.parse(localStorage.getItem('apriData') || '{}');
-      const name = localStorage.getItem('name') || 'N/A';
-      const content = `--- APRI CALCULATOR REPORT ---\n\n` +
-        `Name: ${name}\nAge: ${localStorage.getItem('age') || 'N/A'}\nGender: ${localStorage.getItem('gender') || 'N/A'}\nMobile: ${localStorage.getItem('mobile') || 'N/A'}\n\n` +
-        `AST: ${apriData.ast || 'N/A'}\nAST Upper Limit: ${apriData.ast_upper || 'N/A'}\nPlatelet Count: ${apriData.platelets || 'N/A'}\n\n` +
-        `APRI Score: ${localStorage.getItem('apriScore') || 'N/A'}\nInterpretation: ${localStorage.getItem('apriInterpretation') || 'N/A'}`;
-
-      const blob = new Blob([content], { type: 'text/plain' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${name}_APRI_Report.txt`;
-      a.click();
-      URL.revokeObjectURL(url);
-    }
-
-    function clearAll() {
-      localStorage.clear();
-      location.reload();
-    }
-
-    window.onload = () => {
-      updateSteps();
-      document.getElementById('name').value = localStorage.getItem('name') || '';
-      document.getElementById('age').value = localStorage.getItem('age') || '';
-      document.getElementById('gender').value = localStorage.getItem('gender') || '';
-      document.getElementById('mobile').value = localStorage.getItem('mobile') || '';
+  function submitData() {
+    const apriData = JSON.parse(localStorage.getItem('apriData') || '{}');
+    const data = {
+      name: localStorage.getItem('name') || 'N/A',
+      age: localStorage.getItem('age') || 'N/A',
+      gender: localStorage.getItem('gender') || 'N/A',
+      mobile: localStorage.getItem('mobile') || 'N/A',
+      ast: apriData.ast || 'N/A',
+      astLimit: apriData.ast_upper || 'N/A',
+      platelets: apriData.platelets || 'N/A',
+      apriScore: localStorage.getItem('apriScore') || 'N/A',
+      interpretation: localStorage.getItem('apriInterpretation') || 'N/A'
     };
-  </script>
+
+    fetch("https://script.google.com/macros/s/AKfycbzhKWmynjOHlyP711kw_1cGtKmI714xWpzSyjcB6nYwBQdX1JCBrkaVgjySbV20HGUa/exec", {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    }).then(() => {
+      alert('Data saved successfully.');
+    }).catch(() => {
+      alert('Failed to save data.');
+    });
+  }
+
+  function downloadResult() {
+    const apriData = JSON.parse(localStorage.getItem('apriData') || '{}');
+    const name = localStorage.getItem('name') || 'N/A';
+    const content = `--- APRI CALCULATOR REPORT ---\n\n` +
+      `Name: ${name}\nAge: ${localStorage.getItem('age') || 'N/A'}\nGender: ${localStorage.getItem('gender') || 'N/A'}\nMobile: ${localStorage.getItem('mobile') || 'N/A'}\n\n` +
+      `AST: ${apriData.ast || 'N/A'}\nAST Upper Limit: ${apriData.ast_upper || 'N/A'}\nPlatelet Count: ${apriData.platelets || 'N/A'}\n\n` +
+      `APRI Score: ${localStorage.getItem('apriScore') || 'N/A'}\nInterpretation: ${localStorage.getItem('apriInterpretation') || 'N/A'}`;
+
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${name}_APRI_Report.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function clearAll() {
+    localStorage.clear();
+    location.reload();
+  }
+
+  window.onload = () => {
+    updateSteps();
+    document.getElementById('name').value = localStorage.getItem('name') || '';
+    document.getElementById('age').value = localStorage.getItem('age') || '';
+    document.getElementById('gender').value = localStorage.getItem('gender') || '';
+    document.getElementById('mobile').value = localStorage.getItem('mobile') || '';
+  };
+</script>
 
 </body>
 </html>
