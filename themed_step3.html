@@ -4,11 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Step 3 - Platelet Count</title>
-
-  <!-- Bootstrap & Fonts -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
-
   <style>
     body {
       background: linear-gradient(to right, #E6E6FA, #FFDAB9);
@@ -20,27 +17,23 @@
       justify-content: center;
       align-items: center;
     }
-
     .card {
-      background: rgba(255, 255, 255, 0.95);
+      background: rgba(255,255,255,0.95);
       border-radius: 20px;
       padding: 2rem;
       max-width: 600px;
       width: 100%;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
     }
-
     h2 {
       text-align: center;
       color: #6a5acd;
       margin-bottom: 1.5rem;
     }
-
     .form-control {
       border-radius: 10px;
       padding: 0.75rem;
     }
-
     .btn-finish {
       background-color: #ff944d;
       color: white;
@@ -53,7 +46,6 @@
       width: 100%;
       margin-top: 1.5rem;
     }
-
     .btn-finish:hover {
       background-color: #ff8000;
       box-shadow: 0 0 15px #ff8000;
@@ -62,38 +54,49 @@
 </head>
 <body>
 
-  <div class="card">
-    <h2>Step 3: Enter Platelet Count</h2>
+<div class="card">
+  <h2>Step 3: Enter Platelet Count</h2>
+  <label for="platelets" class="form-label">Platelet Count (x10⁹/L)</label>
+  <input id="platelets" class="form-control" type="number" placeholder="e.g., 180" />
+  <button class="btn btn-finish" onclick="saveAndGoHome()">Finish & Return to Summary</button>
+</div>
 
-    <label for="platelets" class="form-label">Platelet Count (x10⁹/L)</label>
-    <input id="platelets" class="form-control" type="number" placeholder="e.g., 180" />
+<script>
+  function saveAndGoHome() {
+    const apriData = JSON.parse(localStorage.getItem('apriData') || '{}');
+    const platelets = document.getElementById('platelets').value.trim();
+    apriData.platelets = platelets;
+    localStorage.setItem('apriData', JSON.stringify(apriData));
+    localStorage.setItem('step3Complete', 'true');
 
-    <button class="btn btn-finish" onclick="saveAndGoHome()">Finish & Return to Summary</button>
-  </div>
+    // Calculate APRI score
+    const ast = parseFloat(apriData.ast);
+    const astLimit = parseFloat(apriData.ast_upper);
+    const plt = parseFloat(platelets);
 
-  <script>
-    function saveAndGoHome() {
-      const apriData = JSON.parse(localStorage.getItem('apriData') || '{}');
-      const value = document.getElementById('platelets').value.trim();
+    if (!isNaN(ast) && !isNaN(astLimit) && !isNaN(plt)) {
+      const apri = ((ast / astLimit) / plt) * 100;
+      const apriScore = apri.toFixed(2);
 
-      if (!value) {
-        alert("Please enter a valid platelet count.");
-        return;
-      }
+      let interpretation = '';
+      if (apri < 0.5) interpretation = 'Minimal or no fibrosis';
+      else if (apri <= 1.5) interpretation = 'Moderate to significant fibrosis';
+      else interpretation = 'Severe fibrosis or cirrhosis';
 
-      apriData.platelets = value;
-      localStorage.setItem('apriData', JSON.stringify(apriData));
-      localStorage.setItem('step3Complete', 'true');
-      window.location.href = 'themed_index.html';
+      localStorage.setItem('apriScore', apriScore);
+      localStorage.setItem('apriInterpretation', interpretation);
     }
 
-    window.onload = function () {
-      const data = JSON.parse(localStorage.getItem('apriData') || '{}');
-      if (data.platelets) {
-        document.getElementById('platelets').value = data.platelets;
-      }
-    };
-  </script>
+    window.location.href = 'themed_index.html';
+  }
+
+  window.onload = function () {
+    const data = JSON.parse(localStorage.getItem('apriData') || '{}');
+    if (data.platelets) {
+      document.getElementById('platelets').value = data.platelets;
+    }
+  };
+</script>
 
 </body>
 </html>
