@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Welcome to APRI Calculator</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:wght@500&display=swap" rel="stylesheet" />
   <style>
     body {
       margin: 0;
@@ -13,14 +13,17 @@
       color: #333;
       font-family: 'Poppins', sans-serif;
       overflow-x: hidden;
+      position: relative;
+      min-height: 100vh;
     }
 
     .hero {
-      height: 100vh;
-      position: relative;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
+      align-items: center;
+      padding: 2rem;
     }
 
     .admin-link {
@@ -28,6 +31,22 @@
       top: 20px;
       right: 30px;
       z-index: 100;
+    }
+
+    .admin-link a {
+      background-color: #6a5acd;
+      color: white;
+      padding: 0.5rem 1.2rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 500;
+      box-shadow: 0 0 10px #6a5acd;
+      transition: all 0.3s ease;
+    }
+
+    .admin-link a:hover {
+      background-color: #7b68ee;
+      box-shadow: 0 0 15px #7b68ee;
     }
 
     .logos {
@@ -50,6 +69,8 @@
       font-weight: bold;
       color: #6a5acd;
       text-shadow: 0 0 8px #ffffffaa;
+      margin-bottom: 1rem;
+      text-align: center;
     }
 
     .glass-box {
@@ -59,7 +80,13 @@
       backdrop-filter: blur(10px);
       border: 1px solid rgba(255, 255, 255, 0.3);
       max-width: 800px;
-      margin: 0 auto;
+      margin: 1.5rem auto 0;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .glass-box h3 {
+      color: #6a5acd;
+      margin-top: 1rem;
     }
 
     .btn-launch {
@@ -70,6 +97,7 @@
       font-size: 1.25rem;
       border-radius: 10px;
       box-shadow: 0 0 12px #6a5acd;
+      margin-right: 10px;
     }
 
     .btn-launch:hover {
@@ -77,24 +105,43 @@
       box-shadow: 0 0 20px #7b68ee;
     }
 
+    .btn-secondary {
+      font-size: 1.1rem;
+      padding: 0.65rem 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #aaa;
+    }
+
     @media (max-width: 768px) {
       .content h1 {
         font-size: 1.75rem;
       }
+
       .logos img {
         height: 40px;
+      }
+
+      .btn-launch {
+        font-size: 1rem;
+        padding: 0.6rem 1.5rem;
       }
     }
   </style>
 </head>
 <body>
+
+  <!-- Admin login top-right -->
+  <div class="admin-link">
+    <a href="admin_login.html">Admin Login</a>
+  </div>
+
   <div class="hero">
-    <div class="overlay"></div>
-    <div class="content container">
-      <div class="logos">
+    <div class="content container text-center">
+      <div class="logos mb-3">
         <img src="yashoda_logo.png.png" alt="Yashoda Hospitals">
         <img src="BITS_Pilani-Logo.png.png" alt="BITS Pilani">
       </div>
+
       <h1>Welcome to APRI Calculator</h1>
       <p>BITS Pilani × Yashoda Hospitals</p>
 
@@ -103,20 +150,24 @@
         <p>
           The liver plays a critical role in metabolism, detoxification, and digestion. Monitoring liver function is vital for early detection of conditions such as fibrosis and cirrhosis.
         </p>
+
         <h3>What is Pathology?</h3>
         <p>
           Pathology is the study of disease. It involves examining tissues, cells, and organs to understand the nature and cause of diseases, including liver damage.
         </p>
+
         <h3>About This Project</h3>
         <p>
           This APRI Calculator was developed by students of BITS Pilani, Hyderabad Campus, under the guidance of doctors from Yashoda Hospitals. It helps estimate liver fibrosis levels using accessible blood test parameters.
         </p>
-        <div class="text-center">
+
+        <div class="text-center mt-4">
           <a href="themed_index.html" class="btn btn-launch">Launch APRI Calculator</a>
           <a href="admin_login.html" class="btn btn-secondary">Admin Login</a>
         </div>
       </div>
     </div>
   </div>
+
 </body>
 </html>
