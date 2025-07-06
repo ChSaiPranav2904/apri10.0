@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Patient Analysis</title>
 
   <!-- Bootstrap & Chart.js -->
@@ -11,123 +11,139 @@
 
   <style>
     body {
-      background: linear-gradient(to right,#0f0c29,#302b63,#24243e);
-      color:#fff;
-      font-family:'Segoe UI',sans-serif;
-      padding:2rem;
+      background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      flex-direction: column;
     }
-    .card{
-      background:rgba(255,255,255,0.08);
-      border-radius:20px;
-      padding:2rem;
-      backdrop-filter:blur(10px);
-      border:1px solid rgba(255,255,255,0.2);
-      max-width:600px;
-      margin:auto;
-      margin-top:40px;
+
+    .card {
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 2rem;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      width: 100%;
+      max-width: 600px;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
     }
-    .btn{width:100%;}
-    #resultBox{
-      margin-top:2rem;
-      background-color:rgba(255,255,255,0.05);
-      border-radius:10px;
-      padding:1rem;
+
+    .btn {
+      width: 100%;
+      margin-top: 0.5rem;
     }
-    textarea{
-      white-space:pre-wrap;
-      background-color:rgba(255,255,255,0.05);
-      color:#fff;
-      border:none;
-      width:100%;
-      padding:10px;
-      border-radius:10px;
+
+    #resultBox {
+      margin-top: 2rem;
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      padding: 1rem;
+      width: 100%;
+      max-width: 600px;
     }
-    /* 🔒 Logout button */
-    .logout-btn{
-      position:fixed;
-      top:20px;
-      right:20px;
-      background:#ff5252;
-      color:#fff;
-      border:none;
-      padding:10px 20px;
-      border-radius:10px;
-      cursor:pointer;
-      z-index:1000;
+
+    textarea {
+      white-space: pre-wrap;
+      background-color: rgba(255, 255, 255, 0.05);
+      color: #fff;
+      border: none;
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
     }
-    /* 📊 New chart button */
-    .chart-btn{
-      position:fixed;
-      top:20px;
-      right:140px; /* place just left of logout */
-      background:#ffc107;
-      color:#000;
-      border:none;
-      padding:10px 20px;
-      border-radius:10px;
-      cursor:pointer;
-      z-index:1000;
-      text-decoration:none;
+
+    .logout-btn,
+    .chart-btn {
+      position: fixed;
+      top: 20px;
+      padding: 10px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      z-index: 1000;
+    }
+
+    .logout-btn {
+      right: 20px;
+      background: #ff5252;
+      color: #fff;
+      border: none;
+    }
+
+    .chart-btn {
+      right: 140px;
+      background: #ffc107;
+      color: #000;
+      text-decoration: none;
+      border: none;
     }
   </style>
 </head>
 <body>
 
-  <!-- Fixed‑position action buttons -->
+  <!-- Fixed buttons -->
   <a class="chart-btn" href="chart.html" target="_blank">View Chart Analysis</a>
   <button class="logout-btn" onclick="logout()">Logout</button>
 
-  <div class="card text-center">
+  <!-- Search Card -->
+  <div class="card">
     <h3 class="mb-4">Search Patient by Patient ID Number</h3>
     <input type="tel" class="form-control mb-3" id="searchMobile" placeholder="Enter Patient ID Number" required />
     <button class="btn btn-primary" onclick="searchPatient()">Search</button>
   </div>
 
+  <!-- Result Box -->
   <div id="resultBox" style="display:none;">
     <h5 class="mt-4">Patient Details:</h5>
     <textarea rows="10" readonly id="patientDetails"></textarea>
-    <canvas id="chartCanvas" style="max-width:500px;margin-top:2rem;"></canvas>
+    <canvas id="chartCanvas" style="max-width:500px; margin: 2rem auto 0; display: block;"></canvas>
   </div>
 
   <script>
-    /* Gate‑keep admin access */
-    if(!sessionStorage.getItem("verified")){
+    // Session-based access check
+    if (!sessionStorage.getItem("verified")) {
       alert("You are not authorized. Please login again.");
-      window.location.href="admin_login.html";
+      window.location.href = "admin_login.html";
     }
 
-    function logout(){
+    function logout() {
       sessionStorage.removeItem("verified");
-      window.location.href="admin_login.html";
+      window.location.href = "admin_login.html";
     }
 
-    const sheetURL="https://script.google.com/macros/s/AKfycbzhKWmynjOHlyP711kw_1cGtKmI714xWpzSyjcB6nYwBQdX1JCBrkaVgjySbV20HGUa/exec";
+    const sheetURL = "https://script.google.com/macros/s/AKfycbzhKWmynjOHlyP711kw_1cGtKmI714xWpzSyjcB6nYwBQdX1JCBrkaVgjySbV20HGUa/exec";
 
-    async function searchPatient(){
-      const rawInput=document.getElementById('searchMobile').value.trim();
-      if(!rawInput) return alert('Please enter a patient id number.');
+    async function searchPatient() {
+      const rawInput = document.getElementById('searchMobile').value.trim();
+      if (!rawInput) return alert('Please enter a patient id number.');
 
-      const cleanInput=rawInput.replace(/\D/g,'');
+      const cleanInput = rawInput.replace(/\D/g, '');
 
-      try{
-        const res=await fetch(sheetURL);
-        const data=await res.json();
+      try {
+        const res = await fetch(sheetURL);
+        const data = await res.json();
 
-        const patient=data.find((row,idx)=>{
-          if(idx===0) return false; // skip header
-          const sheetMobile=(row[3]||"").toString().replace(/\D/g,'');
-          return sheetMobile===cleanInput;
+        const patient = data.find((row, idx) => {
+          if (idx === 0) return false; // Skip header
+          const sheetMobile = (row[3] || "").toString().replace(/\D/g, '');
+          return sheetMobile === cleanInput;
         });
 
-        if(!patient){
+        if (!patient) {
           alert('No patient found with that patient id number.');
-          document.getElementById('resultBox').style.display='none';
+          document.getElementById('resultBox').style.display = 'none';
           return;
         }
 
-        const [name,age,gender,mobileNum,ast,astULN,platelets,apriScore,interpretation]=patient;
+        const [name, age, gender, mobileNum, ast, astULN, platelets, apriScore, interpretation] = patient;
 
-        const details=`Name: ${name}
+        const details = `Name: ${name}
 Age: ${age}
 Gender: ${gender}
 Pateient Number: ${mobileNum}
@@ -139,40 +155,40 @@ Platelet Count: ${platelets}
 APRI Score: ${apriScore}
 Interpretation: ${interpretation}`;
 
-        document.getElementById('resultBox').style.display='block';
-        document.getElementById('patientDetails').value=details;
+        document.getElementById('resultBox').style.display = 'block';
+        document.getElementById('patientDetails').value = details;
 
-        /* Pie chart of fibrosis category */
-        const ctx=document.getElementById('chartCanvas').getContext('2d');
-        if(window.apriChart) window.apriChart.destroy();
+        // Chart
+        const ctx = document.getElementById('chartCanvas').getContext('2d');
+        if (window.apriChart) window.apriChart.destroy();
 
-        window.apriChart=new Chart(ctx,{
-          type:'pie',
-          data:{
-            labels:['Minimal Fibrosis','Moderate Fibrosis','Severe/Cirrhosis'],
-            datasets:[{
-              data:[
-                interpretation.includes('Minimal')?1:0,
-                interpretation.includes('Moderate')?1:0,
-                (interpretation.includes('Severe')||interpretation.includes('Cirrhosis'))?1:0
+        window.apriChart = new Chart(ctx, {
+          type: 'pie',
+          data: {
+            labels: ['Minimal Fibrosis', 'Moderate Fibrosis', 'Severe/Cirrhosis'],
+            datasets: [{
+              data: [
+                interpretation.includes('Minimal') ? 1 : 0,
+                interpretation.includes('Moderate') ? 1 : 0,
+                (interpretation.includes('Severe') || interpretation.includes('Cirrhosis')) ? 1 : 0
               ],
-              backgroundColor:['#4bc0c0','#ffce56','#ff6384']
+              backgroundColor: ['#4bc0c0', '#ffce56', '#ff6384']
             }]
           },
-          options:{
-            plugins:{
-              legend:{labels:{color:'#fff'}},
-              title:{
-                display:true,
-                text:'Liver Health Chart',
-                color:'#fff'
+          options: {
+            plugins: {
+              legend: { labels: { color: '#fff' } },
+              title: {
+                display: true,
+                text: 'Liver Health Chart',
+                color: '#fff'
               }
             }
           }
         });
 
-      }catch(err){
-        console.error("Fetch error:",err);
+      } catch (err) {
+        console.error("Fetch error:", err);
         alert('Error fetching patient data.');
       }
     }
@@ -180,3 +196,4 @@ Interpretation: ${interpretation}`;
 
 </body>
 </html>
+
