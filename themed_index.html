@@ -142,9 +142,10 @@
         }
       });
 
-      const ast = parseFloat(localStorage.getItem('ast'));
-      const astLimit = parseFloat(localStorage.getItem('astLimit'));
-      const platelets = parseFloat(localStorage.getItem('platelets'));
+      const apriData = JSON.parse(localStorage.getItem('apriData') || '{}');
+      const ast = parseFloat(apriData.ast);
+      const astLimit = parseFloat(apriData.ast_upper);
+      const platelets = parseFloat(apriData.platelets);
 
       if (!isNaN(ast) && !isNaN(astLimit) && !isNaN(platelets)) {
         const apri = ((ast / astLimit) / platelets) * 100;
@@ -204,9 +205,9 @@
         age: localStorage.getItem('age') || 'N/A',
         gender: localStorage.getItem('gender') || 'N/A',
         mobile: localStorage.getItem('mobile') || 'N/A',
-        ast: localStorage.getItem('ast') || 'N/A',
-        astLimit: localStorage.getItem('astLimit') || 'N/A',
-        platelets: localStorage.getItem('platelets') || 'N/A',
+        ast: JSON.parse(localStorage.getItem('apriData') || '{}').ast || 'N/A',
+        astLimit: JSON.parse(localStorage.getItem('apriData') || '{}').ast_upper || 'N/A',
+        platelets: JSON.parse(localStorage.getItem('apriData') || '{}').platelets || 'N/A',
         apriScore: localStorage.getItem('apriScore') || 'N/A',
         interpretation: localStorage.getItem('apriInterpretation') || 'N/A'
       };
@@ -227,7 +228,7 @@
       const name = localStorage.getItem('name') || 'N/A';
       const content = `--- APRI CALCULATOR REPORT ---\n\n` +
         `Name: ${name}\nAge: ${localStorage.getItem('age') || 'N/A'}\nGender: ${localStorage.getItem('gender') || 'N/A'}\nMobile: ${localStorage.getItem('mobile') || 'N/A'}\n\n` +
-        `AST: ${localStorage.getItem('ast') || 'N/A'}\nAST Upper Limit: ${localStorage.getItem('astLimit') || 'N/A'}\nPlatelet Count: ${localStorage.getItem('platelets') || 'N/A'}\n\n` +
+        `AST: ${JSON.parse(localStorage.getItem('apriData') || '{}').ast || 'N/A'}\nAST Upper Limit: ${JSON.parse(localStorage.getItem('apriData') || '{}').ast_upper || 'N/A'}\nPlatelet Count: ${JSON.parse(localStorage.getItem('apriData') || '{}').platelets || 'N/A'}\n\n` +
         `APRI Score: ${localStorage.getItem('apriScore') || 'N/A'}\nInterpretation: ${localStorage.getItem('apriInterpretation') || 'N/A'}`;
 
       const blob = new Blob([content], { type: 'text/plain' });
@@ -252,5 +253,6 @@
       document.getElementById('mobile').value = localStorage.getItem('mobile') || '';
     };
   </script>
+
 </body>
 </html>
