@@ -192,7 +192,6 @@
         localStorage.setItem('age', age);
         localStorage.setItem('gender', gender);
         localStorage.setItem('mobile', mobile);
-
         submitData();
       } else {
         alert("Please fill in all fields.");
@@ -200,14 +199,15 @@
     }
 
     function submitData() {
+      const apriData = JSON.parse(localStorage.getItem('apriData') || '{}');
       const data = {
         name: localStorage.getItem('name') || 'N/A',
         age: localStorage.getItem('age') || 'N/A',
         gender: localStorage.getItem('gender') || 'N/A',
         mobile: localStorage.getItem('mobile') || 'N/A',
-        ast: JSON.parse(localStorage.getItem('apriData') || '{}').ast || 'N/A',
-        astLimit: JSON.parse(localStorage.getItem('apriData') || '{}').ast_upper || 'N/A',
-        platelets: JSON.parse(localStorage.getItem('apriData') || '{}').platelets || 'N/A',
+        ast: apriData.ast || 'N/A',
+        astLimit: apriData.ast_upper || 'N/A',
+        platelets: apriData.platelets || 'N/A',
         apriScore: localStorage.getItem('apriScore') || 'N/A',
         interpretation: localStorage.getItem('apriInterpretation') || 'N/A'
       };
@@ -225,10 +225,11 @@
     }
 
     function downloadResult() {
+      const apriData = JSON.parse(localStorage.getItem('apriData') || '{}');
       const name = localStorage.getItem('name') || 'N/A';
       const content = `--- APRI CALCULATOR REPORT ---\n\n` +
         `Name: ${name}\nAge: ${localStorage.getItem('age') || 'N/A'}\nGender: ${localStorage.getItem('gender') || 'N/A'}\nMobile: ${localStorage.getItem('mobile') || 'N/A'}\n\n` +
-        `AST: ${JSON.parse(localStorage.getItem('apriData') || '{}').ast || 'N/A'}\nAST Upper Limit: ${JSON.parse(localStorage.getItem('apriData') || '{}').ast_upper || 'N/A'}\nPlatelet Count: ${JSON.parse(localStorage.getItem('apriData') || '{}').platelets || 'N/A'}\n\n` +
+        `AST: ${apriData.ast || 'N/A'}\nAST Upper Limit: ${apriData.ast_upper || 'N/A'}\nPlatelet Count: ${apriData.platelets || 'N/A'}\n\n` +
         `APRI Score: ${localStorage.getItem('apriScore') || 'N/A'}\nInterpretation: ${localStorage.getItem('apriInterpretation') || 'N/A'}`;
 
       const blob = new Blob([content], { type: 'text/plain' });
